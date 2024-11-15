@@ -43,6 +43,10 @@
           gameLog.appendChild(messageElement);
         }
 
+        function isOneOff(guess, target) {
+          return Math.abs(guess - target) === 1;
+        }
+
         function checkGuess() {
           const userGuess = parseInt(guessInput.value);
           if (isNaN(userGuess) || userGuess < 1 || userGuess > 10) {
@@ -55,7 +59,11 @@
             endGame();
           } else {
             attempts--;
-            if (attempts > 0) {
+            if (isOneOff(userGuess, targetNumber)) {
+              logMessage(
+                `So close! But still wrong. You have ${attempts} attempts left.`
+              );
+            } else if (attempts > 0) {
               logMessage(`Wrong guess. You have ${attempts} attempts left.`);
             } else {
               logMessage(
