@@ -1,0 +1,9 @@
+1. What is id="submit-guess"? What is it called in html and what is the purpose of it in the code here?
+
+2. What does the logMessage function seem to be doing, generally?
+
+3. What is the purpose of the `targetNumber` variable in the script, and how is it determined?
+
+4. Describe the role of the `checkGuess` function. What conditions does it check, and what actions does it perform based on those conditions?
+
+5. How does the `endGame` function affect the user interface, and when is it called in the game logic?
