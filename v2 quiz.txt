@@ -1,0 +1,9 @@
+6. What is the purpose of the `attempts` variable, and how does it change throughout the game?
+
+7. Explain the role of the `isOneOff` function. How does it contribute to the game's feedback mechanism?
+
+8. How does the script ensure that the user inputs a valid guess, and what happens if the input is invalid?
+
+9. Describe how the game provides feedback to the user after each guess. What messages are displayed, and under what circumstances?
+
+10. What is the role of the `gameLog` element in the user interface, and how is it used in the script?
