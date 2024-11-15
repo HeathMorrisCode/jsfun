@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title>Number Guessing Game</title>
+    <style>
+      #game-log {
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 500px;
+        height: 150px;
+        overflow-y: auto;
+        margin-top: 20px;
+      }
+      #guess-input {
+        margin-top: 10px;
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Number Guessing Game</h1>
+    <div id="game-log"></div>
+    <input
+      type="number"
+      id="guess-input"
+      placeholder="Enter your guess"
+      min="1"
+      max="10"
+    />
+    <button id="submit-guess">Submit Guess</button>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const gameLog = document.getElementById("game-log");
+        const guessInput = document.getElementById("guess-input");
+        const submitGuessButton = document.getElementById("submit-guess");
+
+        let targetNumber = Math.floor(Math.random() * 10) + 1;
+        let attempts = 5;
+
+        function logMessage(message) {
+          const messageElement = document.createElement("div");
+          messageElement.textContent = message;
+          gameLog.appendChild(messageElement);
+        }
+
+        function checkGuess() {
+          const userGuess = parseInt(guessInput.value);
+          if (isNaN(userGuess) || userGuess < 1 || userGuess > 10) {
+            logMessage("Please enter a valid number between 1 and 10.");
+            return;
+          }
+
+          if (userGuess === targetNumber) {
+            logMessage("Congratulations! You guessed the correct number.");
+            endGame();
+          } else {
+            attempts--;
+            if (attempts > 0) {
+              logMessage(`Wrong guess. You have ${attempts} attempts left.`);
+            } else {
+              logMessage(
+                `Sorry, you've used all attempts. The correct number was ${targetNumber}.`
+              );
+              endGame();
+            }
+          }
+        }
+
+        function endGame() {
+          guessInput.disabled = true;
+          submitGuessButton.disabled = true;
+        }
+
+        logMessage(
+          "Game started! Guess a number between 1 and 10. You have 5 guesses."
+        );
+
+        submitGuessButton.addEventListener("click", checkGuess);
+      });
+    </script>
+  </body>
+</html>
