@@ -14,6 +14,24 @@
         margin-top: 10px;
         width: 200px;
       }
+      .firework {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background-color: red;
+        border-radius: 50%;
+        animation: explode 1s ease-out forwards;
+      }
+      @keyframes explode {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(10);
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -41,25 +59,82 @@
           const messageElement = document.createElement("div");
           messageElement.textContent = message;
           gameLog.appendChild(messageElement);
+          gameLog.scrollTop = gameLog.scrollHeight;
         }
 
         function isOneOff(guess, target) {
           return Math.abs(guess - target) === 1;
         }
 
+        function getClue(number, attempts) {
+          let randomNumber = Math.floor(Math.random() * 1000) + 1000;
+          const randomNumberStr = randomNumber.toString();
+          const insertPosition = Math.floor(
+            Math.random() * randomNumberStr.length
+          );
+          const numberWithTarget =
+            randomNumberStr.slice(0, insertPosition) +
+            number +
+            randomNumberStr.slice(insertPosition);
+          const numberInWords = [
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten",
+          ];
+          if (attempts === 2) {
+            return `You have two guesses left! Here is a clue: the number is inside this random number ${numberWithTarget}.`;
+          } else {
+            return `You have one guess left! Here is a clue: When the number is spelled out, it has ${
+              numberInWords[number - 1].length
+            } letters.`;
+          }
+        }
+
+        function createFirework(x, y) {
+          const firework = document.createElement("div");
+          firework.className = "firework";
+          firework.style.left = `${x}px`;
+          firework.style.top = `${y}px`;
+          document.body.appendChild(firework);
+          setTimeout(() => {
+            firework.remove();
+          }, 1000);
+        }
+
+        function showFireworks() {
+          for (let i = 0; i < 20; i++) {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            createFirework(x, y);
+          }
+        }
+
         function checkGuess() {
           const userGuess = parseInt(guessInput.value);
           if (isNaN(userGuess) || userGuess < 1 || userGuess > 10) {
             logMessage("Please enter a valid number between 1 and 10.");
+            guessInput.value = "";
             return;
           }
 
+          logMessage(`You guessed: ${userGuess}`);
+
           if (userGuess === targetNumber) {
             logMessage("Congratulations! You guessed the correct number.");
+            showFireworks(); // Trigger fireworks
             endGame();
           } else {
             attempts--;
-            if (isOneOff(userGuess, targetNumber)) {
+            if (attempts === 1 || attempts === 2) {
+              logMessage(getClue(targetNumber, attempts));
+            } else if (isOneOff(userGuess, targetNumber)) {
               logMessage(
                 `So close! But still wrong. You have ${attempts} attempts left.`
               );
@@ -72,6 +147,7 @@
               endGame();
             }
           }
+          guessInput.value = "";
         }
 
         function endGame() {
