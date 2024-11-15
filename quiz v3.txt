@@ -1,0 +1,9 @@
+1. What is the purpose of the getClue function, and how does it generate a clue for the user?
+
+2. How does the script handle the scenario when the user guesses the correct number?
+
+3. Describe the role of the submitGuessButton element in the script. How does it interact with the user?
+
+4. Explain how the script uses the Math.random() function. Provide examples from the code.
+
+5. What is the significance of the gameLog.scrollTop = gameLog.scrollHeight; line in the logMessage function? How does it affect the user interface?
